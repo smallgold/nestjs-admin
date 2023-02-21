@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import ormConfig from './config/orm.config';
-import ormConfigProd from './config/orm.config.prod';
 import { EventsModule } from './events/events.module';
 
 @Module({
@@ -14,8 +13,7 @@ import { EventsModule } from './events/events.module';
       load: [ormConfig],
     }),
     TypeOrmModule.forRootAsync({
-      useFactory:
-        process.env.NODE_ENV !== 'production' ? ormConfig : ormConfigProd,
+      useFactory: ormConfig,
     }),
     EventsModule,
   ],
