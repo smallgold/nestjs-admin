@@ -9,5 +9,5 @@ module.exports = {
   password: 'example',
   database: 'nest-events',
   entities: [Event, Attendee],
-  synchronize: false,
+  synchronize: true,
 };
