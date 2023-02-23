@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import ormConfig from './config/orm.config';
 import { EventsModule } from './events/events.module';
+import { SchoolModule } from './school/school.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { EventsModule } from './events/events.module';
       useFactory: ormConfig,
     }),
     EventsModule,
+    SchoolModule,
   ],
   controllers: [AppController],
   providers: [
