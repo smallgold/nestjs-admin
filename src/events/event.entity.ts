@@ -24,4 +24,12 @@ export class Event {
   })
   @JoinColumn()
   attendees: Attendee[];
+
+  attendeeCount?: number;
+
+  attendeeRejected?: number;
+
+  attendeeMaybe?: number;
+
+  attendeeAccepted?: number;
 }
