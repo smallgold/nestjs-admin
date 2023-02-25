@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { AttendeeAnswerEnum } from './attendee.entity';
 import { Event } from './event.entity';
 import { ListEvents, WhenEventFilter } from './input/list.events';
+import { paginate, PaginateOptions } from './paginator/paginator';
 
 @Injectable()
 export class EventsService {
@@ -50,10 +51,10 @@ export class EventsService {
       );
   }
 
-  public async getEventsWithAttendeeCountFiltered(filter?: ListEvents) {
+  private async getEventsWithAttendeeCountFiltered(filter?: ListEvents) {
     let query = this.getEventsWithAttendeeCountQuery();
     if (!filter) {
-      return query.getMany();
+      return query;
     }
     if (filter.when * 1 === WhenEventFilter.Today) {
       query = query.andWhere(
@@ -73,7 +74,17 @@ export class EventsService {
         `YEARWEEK(e.when, 1) = YEARWEEK(CURDATE(), 1) + 1`,
       );
     }
-    return await query.getMany();
+    return await query;
+  }
+
+  public async getEventsWithAttendeeCountFilteredPaginated(
+    filter: ListEvents,
+    paginateOptions: PaginateOptions,
+  ) {
+    return await paginate(
+      await this.getEventsWithAttendeeCountFiltered(filter),
+      paginateOptions,
+    );
   }
 
   public async getEvent(id: number): Promise<Event | undefined> {
