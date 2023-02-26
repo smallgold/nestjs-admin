@@ -95,4 +95,12 @@ export class EventsService {
     this.logger.debug(query.getSql());
     return await query.getOne();
   }
+
+  public async deleteEvent(id: number) {
+    return await this.eventsRepository
+      .createQueryBuilder('e')
+      .delete()
+      .where('id = :id', { id })
+      .execute();
+  }
 }

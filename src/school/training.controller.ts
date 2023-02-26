@@ -9,18 +9,41 @@ export class TrainingController {
   constructor(
     @InjectRepository(Subject)
     private readonly subjectRepository: Repository<Subject>,
+    @InjectRepository(Teacher)
+    private readonly teacherRepository: Repository<Teacher>,
   ) {}
 
   @Post('/create')
   public async savingRelation() {
-    const subject = new Subject();
-    subject.name = 'Math';
-    const teacher1 = new Teacher();
-    teacher1.name = 'John Doe';
-    const teacher2 = new Teacher();
-    teacher2.name = 'Harry Doe';
-    subject.teachers = [teacher1, teacher2];
-    await this.subjectRepository.save(subject);
+    // const subject = new Subject();
+    // subject.name = 'Math';
+    // await this.subjectRepository.save(subject);
+
+    // const teacher1 = new Teacher();
+    // teacher1.name = 'John Doe';
+    // const teacher2 = new Teacher();
+    // teacher2.name = 'Harry Doe';
+    // subject.teachers = [teacher1, teacher2];
+    // await this.teacherRepository.save([teacher1, teacher2]);
+
+    const subject = this.subjectRepository.findOne({ where: { id: 3 } });
+    const teacher1 = this.teacherRepository.findOne({ where: { id: 1 } });
+    const teacher2 = this.teacherRepository.findOne({ where: { id: 2 } });
+
+    return await this.subjectRepository
+      .createQueryBuilder()
+      .relation(Subject, 'teachers')
+      .of(subject)
+      .add([teacher1, teacher2]);
+  }
+
+  @Post('/update')
+  public async updateRelation() {
+    await this.subjectRepository
+      .createQueryBuilder('s')
+      .update()
+      .set({ name: 'Confidential' })
+      .execute();
   }
 
   @Post('/remove')

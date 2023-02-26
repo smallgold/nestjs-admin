@@ -22,7 +22,7 @@ export async function paginate<T>(
   },
 ): Promise<PaginationResult<T>> {
   const offset = (options.currentPage - 1) * options.limit;
-  const data = await qb.limit(options.limit).offset(Number(offset)).getMany();
+  const data = await qb.limit(options.limit).offset(offset).getMany();
   return {
     first: offset + 1,
     last: offset + data.length,
