@@ -27,8 +27,8 @@ export class TrainingController {
     // await this.teacherRepository.save([teacher1, teacher2]);
 
     const subject = this.subjectRepository.findOne({ where: { id: 3 } });
-    const teacher1 = this.teacherRepository.findOne({ where: { id: 1 } });
-    const teacher2 = this.teacherRepository.findOne({ where: { id: 2 } });
+    const teacher1 = this.teacherRepository.findOne({ where: { id: 3 } });
+    const teacher2 = this.teacherRepository.findOne({ where: { id: 4 } });
 
     return await this.subjectRepository
       .createQueryBuilder()
