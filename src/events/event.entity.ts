@@ -1,6 +1,8 @@
+import { User } from 'src/auth/user.entity';
 import {
   Column,
   Entity,
+  ManyToOne,
   JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -24,6 +26,13 @@ export class Event {
   })
   @JoinColumn()
   attendees: Attendee[];
+
+  @ManyToOne(() => User, (user) => user.organized)
+  @JoinColumn({ name: 'organizerId' })
+  organizer: User;
+
+  @Column({ nullable: true })
+  organizerId: number;
 
   attendeeCount?: number;
 
