@@ -42,14 +42,14 @@ export class EventsController {
   ) {}
 
   @Get()
-  // @UsePipes(new ValidationPipe({ transform: true }))
-  @UseInterceptors(ClassSerializerInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
+  // @UseInterceptors(ClassSerializerInterceptor)
   async findAll(@Query() filter: ListEvents) {
     return await this.eventsService.getEventsWithAttendeeCountFilteredPaginated(
       filter,
       {
         total: true,
-        currentPage: filter.page || 1,
+        currentPage: filter.page * 1 || 1,
         limit: 10,
       },
     );
