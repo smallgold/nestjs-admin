@@ -126,19 +126,19 @@ export class EventsService {
       .execute();
   }
 
-  public async getEventsOrganizedByUserIdPaginated(
+  public async getEventsAttendedByUserIdPaginated(
     userId: number,
     paginateOptions: PaginateOptions,
   ): Promise<PaginatedEvents> {
     return await paginate<Event>(
-      this.getEventsOrganizedByUserIdQuery(userId),
+      this.getEventsAttendedByUserIdQuery(userId),
       paginateOptions,
     );
   }
 
-  private getEventsOrganizedByUserIdQuery(userId: number) {
-    return this.getEventsBaseQuery().where('e.organizerId = :userId', {
-      userId,
-    });
+  private getEventsAttendedByUserIdQuery(userId: number) {
+    return this.getEventsBaseQuery()
+      .leftJoinAndSelect('e.attemdees', 'a')
+      .where('a.userId = :userId', { userId });
   }
 }
