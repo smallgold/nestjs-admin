@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Attendee } from './attendee.entity';
+import { CreateAttendeeDto } from './input/create-attendee.dto';
 
 @Injectable()
 export class AttendeesService {
@@ -30,7 +31,7 @@ export class AttendeesService {
   }
 
   public async createOrUpdate(
-    input: any,
+    input: CreateAttendeeDto,
     eventId: number,
     userId: number,
   ): Promise<Attendee> {
@@ -38,7 +39,7 @@ export class AttendeesService {
       (await this.findOneByEventIdAndUserId(eventId, userId)) ?? new Attendee();
     attendee.eventId = eventId;
     attendee.userId = userId;
-
+    attendee.answer = input.answer;
     // reset input...
 
     return await this.attendeeRepository.save(attendee);
