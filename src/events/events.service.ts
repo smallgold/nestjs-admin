@@ -90,13 +90,19 @@ export class EventsService {
     );
   }
 
-  public async getEvent(id: number): Promise<Event | undefined> {
+  public async getEventWithAttendeeCount(
+    id: number,
+  ): Promise<Event | undefined> {
     const query = this.getEventsWithAttendeeCountQuery().andWhere(
       'e.id = :id',
       { id },
     );
     this.logger.debug(query.getSql());
     return await query.getOne();
+  }
+
+  public async findOne(id: number): Promise<Event | undefined> {
+    return await this.eventsRepository.findOne({ where: { id } });
   }
 
   public async createEvent(input: CreateEventDto, user: User): Promise<Event> {
