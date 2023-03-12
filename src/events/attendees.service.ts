@@ -18,30 +18,30 @@ export class AttendeesService {
     });
   }
 
-  public async findOneByEventIdAndUserId(
-    eventId: number,
-    userId: number,
-  ): Promise<Attendee | undefined> {
-    return await this.attendeeRepository.findOne({
-      where: {
-        event: { id: eventId },
-        user: { id: userId },
-      },
-    });
-  }
+  // public async findOneByEventIdAndUserId(
+  //   eventId: number,
+  //   userId: number,
+  // ): Promise<Attendee | undefined> {
+  //   return await this.attendeeRepository.findOne({
+  //     where: {
+  //       event: { id: eventId },
+  //       user: { id: userId },
+  //     },
+  //   });
+  // }
 
-  public async createOrUpdate(
-    input: CreateAttendeeDto,
-    eventId: number,
-    userId: number,
-  ): Promise<Attendee> {
-    const attendee =
-      (await this.findOneByEventIdAndUserId(eventId, userId)) ?? new Attendee();
-    attendee.eventId = eventId;
-    attendee.userId = userId;
-    attendee.answer = input.answer;
-    // reset input...
+  // public async createOrUpdate(
+  //   input: CreateAttendeeDto,
+  //   eventId: number,
+  //   userId: number,
+  // ): Promise<Attendee> {
+  //   const attendee =
+  //     (await this.findOneByEventIdAndUserId(eventId, userId)) ?? new Attendee();
+  //   attendee.eventId = eventId;
+  //   attendee.userId = userId;
+  //   attendee.answer = input.answer;
+  //   // reset input...
 
-    return await this.attendeeRepository.save(attendee);
-  }
+  //   return await this.attendeeRepository.save(attendee);
+  // }
 }
