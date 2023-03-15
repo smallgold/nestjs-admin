@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   ForbiddenException,
@@ -11,7 +12,9 @@ import {
   Patch,
   Post,
   Query,
+  SerializeOptions,
   UseGuards,
+  UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -28,6 +31,7 @@ import { User } from 'src/auth/user.entity';
 import { AuthGuardJwt } from 'src/auth/auth-guard.jwt';
 
 @Controller('/events')
+@SerializeOptions({ strategy: 'excludeAll' })
 export class EventsController {
   constructor(
     @InjectRepository(Event)
@@ -38,12 +42,14 @@ export class EventsController {
   ) {}
 
   @Get()
+  // @UsePipes(new ValidationPipe({ transform: true }))
+  @UseInterceptors(ClassSerializerInterceptor)
   async findAll(@Query() filter: ListEvents) {
     return await this.eventsService.getEventsWithAttendeeCountFilteredPaginated(
       filter,
       {
         total: true,
-        currentPage: filter.page * 1 || 1,
+        currentPage: filter.page || 1,
         limit: 10,
       },
     );
@@ -73,26 +79,29 @@ export class EventsController {
   }
 
   @Get(':id')
+  @UseInterceptors(ClassSerializerInterceptor)
   async findOne(@Param('id', ParseIntPipe) id: number) {
-    return await this.eventsService.getEventWithAttendeeCount(id);
+    return await this.eventsService.getEvent(id);
   }
 
   @Post()
   @UseGuards(AuthGuardJwt)
+  @UseInterceptors(ClassSerializerInterceptor)
   async create(
     @Body(new ValidationPipe({ groups: ['create'] })) input: CreateEventDto,
     @CurrentUser() user: User,
   ) {
     return await this.eventsService.createEvent(input, user);
   }
-  @Patch()
+  @Patch(':id')
   @UseGuards(AuthGuardJwt)
+  @UseInterceptors(ClassSerializerInterceptor)
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body(new ValidationPipe({ groups: ['update'] })) input: UpdateEventDto,
     @CurrentUser() user: User,
   ) {
-    const event = await this.eventsService.findOne(id);
+    const event = await this.eventsService.getEvent(id);
 
     if (!event) {
       throw new NotFoundException();
@@ -107,7 +116,6 @@ export class EventsController {
 
     return await this.eventsService.updateEvent(event, input);
   }
-
   @Delete(':id')
   @HttpCode(204)
   @UseGuards(AuthGuardJwt)
@@ -115,7 +123,7 @@ export class EventsController {
     @Param('id', ParseIntPipe) id: number,
     @CurrentUser() user: User,
   ) {
-    const event = await this.eventsService.findOne(id);
+    const event = await this.eventsService.getEvent(id);
 
     if (!event) {
       throw new NotFoundException();

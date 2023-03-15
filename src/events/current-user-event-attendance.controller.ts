@@ -25,38 +25,38 @@ export class CurrentUserEventAttendanceController {
     private readonly attendeesService: AttendeesService,
   ) {}
 
-  @Get()
-  @UseGuards(AuthGuardJwt)
-  @UseInterceptors(ClassSerializerInterceptor)
-  async findAll(@CurrentUser() user: User, @Query('page') page: 1) {
-    return await this.eventsService.getEventsAttendedByUserIdPaginated(
-      user.id,
-      { limit: 6, currentPage: page },
-    );
-  }
+  // @Get()
+  // @UseGuards(AuthGuardJwt)
+  // @UseInterceptors(ClassSerializerInterceptor)
+  // async findAll(@CurrentUser() user: User, @Query('page') page: 1) {
+  //   return await this.eventsService.getEventsAttendedByUserIdPaginated(
+  //     user.id,
+  //     { limit: 6, currentPage: page },
+  //   );
+  // }
 
-  @Get(':/eventId')
-  @UseGuards(AuthGuardJwt)
-  @UseInterceptors(ClassSerializerInterceptor)
-  async findOne(@Param('eventId') eventId: number, @CurrentUser() user: User) {
-    const attendee = await this.attendeesService.findOneByEventIdAndUserId(
-      eventId,
-      user.id,
-    );
-    if (!attendee) {
-      throw new NotFoundException();
-    }
-    return attendee;
-  }
+  // @Get(':/eventId')
+  // @UseGuards(AuthGuardJwt)
+  // @UseInterceptors(ClassSerializerInterceptor)
+  // async findOne(@Param('eventId') eventId: number, @CurrentUser() user: User) {
+  //   const attendee = await this.attendeesService.findOneByEventIdAndUserId(
+  //     eventId,
+  //     user.id,
+  //   );
+  //   if (!attendee) {
+  //     throw new NotFoundException();
+  //   }
+  //   return attendee;
+  // }
 
-  @Put(':/eventId')
-  @UseGuards(AuthGuardJwt)
-  @UseInterceptors(ClassSerializerInterceptor)
-  async createOrUpdate(
-    @Param('eventId', ParseIntPipe) eventId: number,
-    @Body() input: CreateAttendeeDto,
-    @CurrentUser() user: User,
-  ) {
-    return this.attendeesService.createOrUpdate(input, eventId, user.id);
-  }
+  // @Put(':/eventId')
+  // @UseGuards(AuthGuardJwt)
+  // @UseInterceptors(ClassSerializerInterceptor)
+  // async createOrUpdate(
+  //   @Param('eventId', ParseIntPipe) eventId: number,
+  //   @Body() input: CreateAttendeeDto,
+  //   @CurrentUser() user: User,
+  // ) {
+  //   return this.attendeesService.createOrUpdate(input, eventId, user.id);
+  // }
 }

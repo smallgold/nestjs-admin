@@ -14,12 +14,12 @@ import { EventsService } from './events.service';
 export class EventsOrganizedByUserController {
   constructor(private readonly eventsService: EventsService) {}
 
-  @Get()
-  @UseInterceptors(ClassSerializerInterceptor)
-  async findAll(@Param('userId') userId: number, @Query('page') page = 1) {
-    return await this.eventsService.getEventsAttendedByUserIdPaginated(userId, {
-      currentPage: page,
-      limit: 5,
-    });
-  }
+  // @Get()
+  // @UseInterceptors(ClassSerializerInterceptor)
+  // async findAll(@Param('userId') userId: number, @Query('page') page = 1) {
+  //   return await this.eventsService.getEventsAttendedByUserIdPaginated(userId, {
+  //     currentPage: page,
+  //     limit: 5,
+  //   });
+  // }
 }
