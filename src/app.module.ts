@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.modules';
 import ormConfig from './config/orm.config';
 import { EventsModule } from './events/events.module';
 import { SchoolModule } from './school/school.module';
+import { ProjectModule } from './project/project.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SchoolModule } from './school/school.module';
     AuthModule,
     EventsModule,
     SchoolModule,
+    ProjectModule,
   ],
   controllers: [AppController],
   providers: [
