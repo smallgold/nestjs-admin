@@ -13,6 +13,4 @@ export class CreateUserDto {
   lastName: string;
   @IsEmail()
   email: string;
-
-  code?: string;
 }

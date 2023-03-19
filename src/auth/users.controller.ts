@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   Post,
+  Req,
   Res,
   Session,
 } from '@nestjs/common';
@@ -24,13 +25,13 @@ export class UsersController {
   ) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto, @Session() session) {
+  async create(
+    @Body() createUserDto: CreateUserDto,
+    @Req() req,
+    @Session() session,
+  ) {
     const user = new User();
-    if (
-      !createUserDto.code ||
-      createUserDto.code.toLocaleLowerCase() !==
-        session.captcha.toLocaleLowerCase()
-    ) {
+    if (this.toolsService.captcheValid(req.body.code, session.captcha)) {
       throw new BadRequestException(['no captcha']);
     }
 

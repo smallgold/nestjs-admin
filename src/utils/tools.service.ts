@@ -14,4 +14,14 @@ export class ToolsService {
     });
     return captcha;
   }
+  captcheValid(code, session): boolean {
+    if (
+      code &&
+      session &&
+      code.toLocaleLowerCase() === session.toLocaleLowerCase()
+    ) {
+      return true;
+    }
+    return false;
+  }
 }
