@@ -31,7 +31,7 @@ export class UsersController {
     @Session() session,
   ) {
     const user = new User();
-    if (this.toolsService.captcheValid(req.body.code, session.captcha)) {
+    if (this.toolsService.validateCaptcha(req.body.code, session.captcha)) {
       throw new BadRequestException(['no captcha']);
     }
 

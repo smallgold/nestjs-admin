@@ -14,12 +14,13 @@ export class ToolsService {
     });
     return captcha;
   }
-  captcheValid(code, session): boolean {
+  validateCaptcha(code, session): boolean {
     if (
       code &&
       session &&
       code.toLocaleLowerCase() === session.toLocaleLowerCase()
     ) {
+      delete session.captcha;
       return true;
     }
     return false;

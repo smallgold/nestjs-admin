@@ -28,7 +28,7 @@ export class AuthController {
   @Post('/login')
   @UseGuards(AuthGuardLocal)
   async login(@CurrentUser() user: User, @Req() req, @Session() session) {
-    if (this.toolsService.captcheValid(req.body.code, session.captcha)) {
+    if (this.toolsService.validateCaptcha(req.body.code, session.captcha)) {
       throw new BadRequestException(['no captcha']);
     }
     return {
