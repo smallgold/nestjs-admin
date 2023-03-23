@@ -8,7 +8,7 @@ import ormConfig from './config/orm.config';
 import { EventsModule } from './events/events.module';
 import { SchoolModule } from './school/school.module';
 import { ProjectModule } from './project/project.module';
-import { WhitelistMiddleware } from './middleware/whitelistMiddleware';
+import { WhitelistMiddleware } from './middleware/whitelist.middleware';
 
 @Module({
   imports: [
