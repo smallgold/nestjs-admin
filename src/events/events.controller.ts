@@ -28,7 +28,6 @@ import { UpdateEventDto } from './input/update-event.dto';
 import { ListEvents } from './input/list.events';
 import { CurrentUser } from 'src/auth/current-user.decorator';
 import { User } from 'src/auth/user.entity';
-import { AuthGuardJwt } from 'src/auth/auth-guard.jwt';
 
 @Controller('/events')
 @SerializeOptions({ strategy: 'excludeAll' })
@@ -85,7 +84,6 @@ export class EventsController {
   }
 
   @Post()
-  @UseGuards(AuthGuardJwt)
   @UseInterceptors(ClassSerializerInterceptor)
   async create(
     @Body(new ValidationPipe({ groups: ['create'] })) input: CreateEventDto,
@@ -94,7 +92,6 @@ export class EventsController {
     return await this.eventsService.createEvent(input, user);
   }
   @Patch(':id')
-  @UseGuards(AuthGuardJwt)
   @UseInterceptors(ClassSerializerInterceptor)
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -118,7 +115,6 @@ export class EventsController {
   }
   @Delete(':id')
   @HttpCode(204)
-  @UseGuards(AuthGuardJwt)
   async remove(
     @Param('id', ParseIntPipe) id: number,
     @CurrentUser() user: User,

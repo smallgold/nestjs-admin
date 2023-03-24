@@ -8,24 +8,19 @@ import * as passport from 'passport';
 
 @Injectable()
 export class WhitelistMiddleware implements NestMiddleware {
-  private readonly allowedRoutes = ['/api/users', '/api/products'];
-
+  private readonly allowedRoutes = ['/users/captcha', '/auth/login'];
   use(req: Request, res: Response, next: NextFunction) {
-    const url = req.url;
+    const url = req.baseUrl;
     if (this.allowedRoutes.includes(url)) {
       next();
     } else {
-      passport.authenticate(
-        'jwt',
-        { session: false },
-        async (err, user, info) => {
-          if (err || !user) {
-            return UnauthorizedException;
-          }
-          req.user = user;
-          next();
-        },
-      )(req, res, next);
+      passport.authenticate('jwt', { session: false }, (err, user, info) => {
+        if (err || !user) {
+          throw new UnauthorizedException('Invalid credentials');
+        }
+        req.user = user;
+        next();
+      })(req, res, next);
     }
   }
 }

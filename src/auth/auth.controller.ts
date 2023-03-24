@@ -7,12 +7,9 @@ import {
   Req,
   SerializeOptions,
   Session,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ToolsService } from 'src/utils/tools.service';
-import { AuthGuardJwt } from './auth-guard.jwt';
-import { AuthGuardLocal } from './auth-guard.local';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './current-user.decorator';
 import { User } from './user.entity';
@@ -26,10 +23,12 @@ export class AuthController {
   ) {}
 
   @Post('/login')
-  @UseGuards(AuthGuardLocal)
   async login(@CurrentUser() user: User, @Req() req, @Session() session) {
-    if (this.toolsService.validateCaptcha(req.body.code, session.captcha)) {
+    if (!req.body.code) {
       throw new BadRequestException(['no captcha']);
+    }
+    if (!this.toolsService.validateCaptcha(req.body.code, session.captcha)) {
+      throw new BadRequestException(['captcha error']);
     }
     return {
       userId: user.id,
@@ -38,7 +37,6 @@ export class AuthController {
   }
 
   @Get('/profile')
-  @UseGuards(AuthGuardJwt)
   @UseInterceptors(ClassSerializerInterceptor)
   async getProfile(@CurrentUser() user: User) {
     return user;
