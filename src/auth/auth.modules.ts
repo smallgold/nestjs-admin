@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthController } from './auth.controller';
-import { LocalStrategy } from './local.strategy';
 import { User } from './user.entity';
 import { AUTH_SECRET } from '../config/options.config';
 import { AuthService } from './auth.service';
@@ -18,7 +17,7 @@ import { ToolsService } from 'src/utils/tools.service';
       signOptions: { expiresIn: '60m' },
     }),
   ],
-  providers: [LocalStrategy, JwtStrategy, AuthService, ToolsService],
+  providers: [JwtStrategy, AuthService, ToolsService],
   controllers: [AuthController, UsersController],
 })
 export class AuthModule {}

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import * as svgCaptcha from 'svg-captcha';
 
 @Injectable()
@@ -14,15 +14,47 @@ export class ToolsService {
     });
     return captcha;
   }
-  validateCaptcha(code, session): boolean {
+  validateCaptcha(code, captcha): boolean {
+    const CODETIMELINES = 5 * 60 * 1000;
+    const now = Date.now();
+    if (captcha && now - captcha.codeTime > CODETIMELINES) {
+      throw new BadRequestException([
+        'Captcha code timeout, Please replace the captcha',
+      ]);
+    }
     if (
       code &&
-      session &&
-      code.toLocaleLowerCase() === session.toLocaleLowerCase()
+      captcha &&
+      captcha.code &&
+      code.toLocaleLowerCase() === captcha.code.toLocaleLowerCase()
     ) {
-      delete session.captcha;
+      delete captcha.code;
       return true;
     }
     return false;
+  }
+
+  validateCaptchaCount(session) {
+    if (!session.captcha) return;
+    const MAX_TRIES = 3;
+    const CAPTCHATIMELINES = 1 * 60 * 60 * 1000;
+    if (session.captcha.errorCount < MAX_TRIES) return;
+    if (!session.captcha.failTime) {
+      session.captcha.failTime = Date.now();
+    }
+    if (session.captcha.errorCount >= MAX_TRIES) {
+      const now = Date.now();
+      if (now - session.captcha.failTime < CAPTCHATIMELINES) {
+        throw new BadRequestException([
+          'Too many attempts, please try again later',
+        ]);
+      }
+      session.captcha = {
+        code: '',
+        codeTime: 0,
+        errorCount: 0,
+        failTime: 0,
+      };
+    }
   }
 }

@@ -23,17 +23,30 @@ export class AuthController {
   ) {}
 
   @Post('/login')
-  async login(@CurrentUser() user: User, @Req() req, @Session() session) {
-    if (!req.body.code) {
+  async login(@Req() req, @Session() session) {
+    if (!req.body.code || !session.captcha) {
       throw new BadRequestException(['no captcha']);
     }
+    this.toolsService.validateCaptchaCount(session);
     if (!this.toolsService.validateCaptcha(req.body.code, session.captcha)) {
+      if (!session.captcha.errorCount) {
+        session.captcha.errorCount = 0;
+      }
+      session.captcha.errorCount++;
       throw new BadRequestException(['captcha error']);
     }
-    return {
-      userId: user.id,
-      token: this.authService.getTokenForUser(user),
-    };
+    const user = await this.authService.findOne(req.body.username);
+    if (
+      user &&
+      this.authService.compareHash(req.body.password, user.password)
+    ) {
+      return {
+        userId: user.id,
+        token: this.authService.getTokenForUser(user),
+      };
+    } else {
+      throw new BadRequestException(['username or password error']);
+    }
   }
 
   @Get('/profile')

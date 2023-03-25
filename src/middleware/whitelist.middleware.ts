@@ -8,7 +8,7 @@ import * as passport from 'passport';
 
 @Injectable()
 export class WhitelistMiddleware implements NestMiddleware {
-  private readonly allowedRoutes = ['/users/captcha', '/auth/login'];
+  private readonly allowedRoutes = ['/users', '/users/captcha', '/auth/login'];
   use(req: Request, res: Response, next: NextFunction) {
     const url = req.baseUrl;
     if (this.allowedRoutes.includes(url)) {

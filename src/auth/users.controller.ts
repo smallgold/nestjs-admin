@@ -54,7 +54,6 @@ export class UsersController {
     user.email = createUserDto.email;
     user.firstName = createUserDto.firstName;
     user.lastName = createUserDto.lastName;
-
     return {
       ...(await this.userRepository.save(user)),
       token: this.authService.getTokenForUser(user),
@@ -63,8 +62,14 @@ export class UsersController {
 
   @Get('/captcha')
   async generateCaptcha(@Res() res, @Session() session) {
+    this.toolsService.validateCaptchaCount(session);
     const captcha = await this.toolsService.captche();
-    session.captcha = captcha.text;
+    session.captcha = {
+      code: captcha.text,
+      codeTime: Date.now(),
+      errorCount: 0,
+      failTime: 0,
+    };
     res.type('svg');
     res.send(captcha.data);
   }
