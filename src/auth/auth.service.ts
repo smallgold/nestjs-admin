@@ -28,7 +28,7 @@ export class AuthService {
     return await this.generateHash(password);
   }
 
-  public async findOne(username: string): Promise<User | undefined> {
+  public async findUser(username: string): Promise<User | undefined> {
     return this.userRepository.findOne({ where: { username } });
   }
 

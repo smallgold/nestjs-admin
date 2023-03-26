@@ -12,6 +12,7 @@ import {
 import { ToolsService } from 'src/utils/tools.service';
 import { AuthService } from './auth.service';
 import { CurrentUser } from './current-user.decorator';
+import { EXPIRESTIME } from '../config/options.config';
 import { User } from './user.entity';
 
 @Controller('/auth')
@@ -35,13 +36,13 @@ export class AuthController {
       session.captcha.errorCount++;
       throw new BadRequestException(['captcha error']);
     }
-    const user = await this.authService.findOne(req.body.username);
+    const user = await this.authService.findUser(req.body.username);
     if (
       user &&
       this.authService.compareHash(req.body.password, user.password)
     ) {
       return {
-        userId: user.id,
+        expiresTime: EXPIRESTIME,
         token: this.authService.getTokenForUser(user),
       };
     } else {
