@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { UsersController } from './users.controller';
 import { ToolsService } from 'src/utils/tools.service';
+import { JwtValidateService } from 'src/utils/jwt.validate.service';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { ToolsService } from 'src/utils/tools.service';
       signOptions: { expiresIn: EXPIRESTIME },
     }),
   ],
-  providers: [JwtStrategy, AuthService, ToolsService],
+  providers: [JwtStrategy, AuthService, ToolsService, JwtValidateService],
   controllers: [AuthController, UsersController],
 })
 export class AuthModule {}

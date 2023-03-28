@@ -4,11 +4,13 @@ import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { JwtValidateService } from 'src/utils/jwt.validate.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
+    private readonly jwtValidateService: JwtValidateService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
@@ -33,9 +35,9 @@ export class AuthService {
   }
 
   public getTokenForUser(user: User): string {
-    return this.jwtService.sign({
-      username: user.username,
-      sub: user.id,
-    });
+    const payload = { username: user.username, sub: user.id };
+    const token = this.jwtService.sign(payload);
+    this.jwtValidateService.addTokenToBlacklist(token);
+    return token;
   }
 }
