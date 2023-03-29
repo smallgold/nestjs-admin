@@ -8,7 +8,8 @@ import ormConfig from './config/orm.config';
 import { EventsModule } from './events/events.module';
 import { SchoolModule } from './school/school.module';
 import { ProjectModule } from './project/project.module';
-import { WhitelistMiddleware } from './middleware/whitelist.middleware';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -27,13 +28,18 @@ import { WhitelistMiddleware } from './middleware/whitelist.middleware';
   controllers: [AppController],
   providers: [
     {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
       provide: AppService,
       useClass: AppService,
     },
   ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(WhitelistMiddleware).forRoutes('*');
-  }
-}
+export class AppModule {}
+// export class AppModule implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer.apply(WhitelistMiddleware).forRoutes('*');
+//   }
+// }
