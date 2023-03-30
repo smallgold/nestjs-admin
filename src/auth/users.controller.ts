@@ -9,6 +9,7 @@ import {
   Session,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Public } from 'src/utils/decorators/public.decorator';
 import { ToolsService } from 'src/utils/tools.service';
 import { Repository } from 'typeorm';
 import { AuthService } from './auth.service';
@@ -24,7 +25,8 @@ export class UsersController {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  @Post()
+  @Public()
+  @Post('/register')
   async create(
     @Body() createUserDto: CreateUserDto,
     @Req() req,
@@ -60,6 +62,7 @@ export class UsersController {
     };
   }
 
+  @Public()
   @Get('/captcha')
   async generateCaptcha(@Res() res, @Session() session) {
     this.toolsService.validateCaptchaCount(session);

@@ -14,6 +14,7 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from './current-user.decorator';
 import { EXPIRESTIME } from '../config/options.config';
 import { User } from './user.entity';
+import { Public } from 'src/utils/decorators/public.decorator';
 
 @Controller('/auth')
 @SerializeOptions({ strategy: 'excludeAll' })
@@ -23,6 +24,7 @@ export class AuthController {
     private readonly toolsService: ToolsService,
   ) {}
 
+  @Public()
   @Post('/login')
   async login(@Req() req, @Session() session) {
     if (!req.body.code || !session.captcha) {
