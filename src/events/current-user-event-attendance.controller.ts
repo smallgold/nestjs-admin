@@ -11,8 +11,8 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { CurrentUser } from 'src/auth/current-user.decorator';
-import { User } from 'src/auth/user.entity';
+import { CurrentUser } from 'src/utils/decorators/current-user.decorator';
+import { User } from 'src/auth/entities/user.entity';
 import { AttendeesService } from './attendees.service';
 import { EventsService } from './events.service';
 import { CreateAttendeeDto } from './input/create-attendee.dto';

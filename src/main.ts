@@ -7,6 +7,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // app.useGlobalPipes(new ValidationPipe());
+  // app.setGlobalPrefix('v1',{ exclude: ['xxx'] }); // exclude must be fullpath
   app.use(
     session({
       secret: 'my-secret',
@@ -20,6 +21,7 @@ async function bootstrap() {
       .setTitle('this is a title')
       .setDescription('this is a description')
       .setVersion('1.0')
+      .addBearerAuth()
       .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);

@@ -1,5 +1,5 @@
-import { Profile } from 'src/auth/profile.entity';
-import { User } from 'src/auth/user.entity';
+import { Profile } from 'src/auth/entities/profile.entity';
+import { User } from 'src/auth/entities/user.entity';
 import { Attendee } from 'src/events/attendee.entity';
 import { Event } from 'src/events/event.entity';
 import { Subject } from 'src/school/subject.entity';
