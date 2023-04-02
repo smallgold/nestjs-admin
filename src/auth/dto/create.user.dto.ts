@@ -26,7 +26,7 @@ export class CreateUserDto extends LoginDto {
     name: 'lastName',
     type: String,
     default: '',
-    description: 'lastName',
+    description: 'lastName1111',
     required: false,
   })
   @Length(2)

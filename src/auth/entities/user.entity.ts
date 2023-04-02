@@ -1,10 +1,8 @@
-import { Exclude, Expose } from 'class-transformer';
-import { Event } from 'src/events/event.entity';
+import { Exclude } from 'class-transformer';
 import {
   Column,
   Entity,
   JoinColumn,
-  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -34,7 +32,4 @@ export class User {
   @OneToOne(() => Profile)
   @JoinColumn()
   profile: Profile;
-
-  @OneToMany(() => Event, (event) => event.organizer)
-  organized: Event[];
 }

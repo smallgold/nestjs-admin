@@ -111,8 +111,8 @@ export class AuthController {
     res.send(captcha.data);
   }
 
-  @ApiBearerAuth()
   @Get('/profile')
+  @ApiBearerAuth()
   @UseInterceptors(ClassSerializerInterceptor)
   async getProfile(@CurrentUser() user: User) {
     return user;

@@ -1,6 +1,3 @@
-import { Attendee } from 'src/events/attendee.entity';
-import { Event } from 'src/events/event.entity';
-
 module.exports = {
   type: 'mysql',
   host: '127.0.0.1',
@@ -8,6 +5,6 @@ module.exports = {
   username: 'root',
   password: 'example',
   database: 'nest-events',
-  entities: [Event, Attendee],
+  entities: [],
   synchronize: false,
 };

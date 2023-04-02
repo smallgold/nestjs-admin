@@ -1,11 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.modules';
 import ormConfig from './config/orm.config';
-import { EventsModule } from './events/events.module';
-import { SchoolModule } from './school/school.module';
 import { ProjectModule } from './project/project.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
@@ -20,8 +17,6 @@ import { APP_GUARD } from '@nestjs/core';
       useFactory: ormConfig,
     }),
     AuthModule,
-    EventsModule,
-    SchoolModule,
     ProjectModule,
   ],
   controllers: [],
@@ -29,10 +24,6 @@ import { APP_GUARD } from '@nestjs/core';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
-    },
-    {
-      provide: AppService,
-      useClass: AppService,
     },
   ],
 })
