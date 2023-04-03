@@ -6,6 +6,7 @@ import ormConfig from './config/orm.config';
 import { ProjectModule } from './project/project.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { ISDEVELOPMENT } from './config/options.config';
 
 @Module({
   imports: [
@@ -20,12 +21,14 @@ import { APP_GUARD } from '@nestjs/core';
     ProjectModule,
   ],
   controllers: [],
-  providers: [
-    {
-      provide: APP_GUARD,
-      useClass: JwtAuthGuard,
-    },
-  ],
+  providers: !ISDEVELOPMENT
+    ? [
+        {
+          provide: APP_GUARD,
+          useClass: JwtAuthGuard,
+        },
+      ]
+    : [],
 })
 export class AppModule {}
 // export class AppModule implements NestModule {

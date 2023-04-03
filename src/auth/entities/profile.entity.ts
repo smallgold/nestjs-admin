@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Profile {
@@ -7,4 +12,7 @@ export class Profile {
 
   @Column()
   age: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createTime: Date;
 }

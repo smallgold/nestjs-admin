@@ -7,6 +7,9 @@ import {
   Param,
   Delete,
   SerializeOptions,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  Query,
 } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -20,28 +23,32 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) {}
 
-  @Post('/create')
+  @Post()
+  @UseInterceptors(ClassSerializerInterceptor)
   create(@Body() createProjectDto: CreateProjectDto) {
     return this.projectService.create(createProjectDto);
   }
 
-  @Get('/findAll')
-  findAll() {
-    return this.projectService.findAll();
+  @Get()
+  findAll(@Query() query: { keyWord: string; page: number; pageSize: number }) {
+    return this.projectService.findAll(query);
   }
 
-  @Get('/find/:id')
-  findOne(@Param('id') id: string) {
-    return this.projectService.findOne(+id);
+  @Get(':projectId')
+  findOne(@Param('projectId') projectId: string) {
+    return this.projectService.findOne(projectId);
   }
 
-  @Patch('/update/:id')
-  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
-    return this.projectService.update(+id, updateProjectDto);
+  @Patch(':projectId')
+  update(
+    @Param('projectId') projectId: string,
+    @Body() updateProjectDto: UpdateProjectDto,
+  ) {
+    return this.projectService.update(projectId, updateProjectDto);
   }
 
-  @Delete('/remove/:id')
-  remove(@Param('id') id: string) {
-    return this.projectService.remove(+id);
+  @Delete(':projectId')
+  remove(@Param('projectId') projectId: string) {
+    return this.projectService.remove(projectId);
   }
 }

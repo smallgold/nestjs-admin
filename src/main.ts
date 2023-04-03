@@ -3,10 +3,11 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as session from 'express-session';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ISDEVELOPMENT } from './config/options.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  // app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe());
   // app.setGlobalPrefix('v1',{ exclude: ['xxx'] }); // exclude must be fullpath
   app.use(
     session({
@@ -16,7 +17,7 @@ async function bootstrap() {
     }),
   );
 
-  if (process.env.NODE_ENV === 'development') {
+  if (ISDEVELOPMENT) {
     const config = new DocumentBuilder()
       .setTitle('this is a title')
       .setDescription('this is a description')

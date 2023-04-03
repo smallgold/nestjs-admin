@@ -4,7 +4,8 @@ module.exports = {
   port: 3306,
   username: 'root',
   password: 'example',
-  database: 'nest-events',
+  database: 'nest-admin',
   entities: [],
   synchronize: false,
+  charset: 'utf8mb4',
 };

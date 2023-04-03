@@ -1,6 +1,6 @@
-import { Exclude } from 'class-transformer';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   OneToOne,
@@ -16,8 +16,7 @@ export class User {
   @Column({ unique: true })
   username: string;
 
-  @Column()
-  @Exclude()
+  @Column({ select: true })
   password: string;
 
   @Column({ unique: true })
@@ -28,6 +27,9 @@ export class User {
 
   @Column()
   lastName: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createTime: Date;
 
   @OneToOne(() => Profile)
   @JoinColumn()
