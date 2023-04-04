@@ -19,7 +19,11 @@ export class ProjectService {
     return this.projectRepository.save(data);
   }
 
-  async findAll(query: { keyWord: string; page: number; pageSize: number }) {
+  async findAll(query: {
+    keyWord: string;
+    pageIndex: number;
+    pageSize: number;
+  }) {
     // const data = await this.projectRepository.find();
     const data = await this.projectRepository.find({
       where: {
@@ -28,7 +32,7 @@ export class ProjectService {
       order: {
         id: 'DESC',
       },
-      skip: (query.page - 1) * query.pageSize,
+      skip: (query.pageIndex - 1) * query.pageSize,
       take: query.pageSize,
     });
     const total = await this.projectRepository.count({

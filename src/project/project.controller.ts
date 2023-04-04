@@ -30,7 +30,9 @@ export class ProjectController {
   }
 
   @Get()
-  findAll(@Query() query: { keyWord: string; page: number; pageSize: number }) {
+  findAll(
+    @Query() query: { keyWord: string; pageIndex: number; pageSize: number },
+  ) {
     return this.projectService.findAll(query);
   }
 
