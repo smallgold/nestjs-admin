@@ -7,6 +7,7 @@ import { ProjectModule } from './project/project.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { ISDEVELOPMENT } from './config/options.config';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ISDEVELOPMENT } from './config/options.config';
     }),
     AuthModule,
     ProjectModule,
+    UploadModule,
   ],
   controllers: [],
   providers: !ISDEVELOPMENT
