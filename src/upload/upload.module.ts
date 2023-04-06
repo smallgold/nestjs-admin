@@ -11,9 +11,11 @@ import { extname, join } from 'path';
       storage: diskStorage({
         destination: join(__dirname, '../images'),
         filename: (_, file, callback) => {
-          const fileName = `${
-            new Date().getTime() + extname(file.originalname)
-          }`;
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          const fileName = `${randomName}${extname(file.originalname)}`;
           return callback(null, fileName);
         },
       }),

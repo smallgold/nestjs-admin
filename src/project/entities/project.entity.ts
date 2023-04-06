@@ -5,6 +5,7 @@ import {
   Column,
   Generated,
   PrimaryColumn,
+  CreateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -25,4 +26,7 @@ export class Project {
 
   @Column()
   options: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createTime: Date;
 }
