@@ -71,11 +71,22 @@ export class UploadService {
     // .xml	text/plain
     // .z	application/x-compress
     // .zip	application/x-zip-compressed
-    // const typeList = [['image/png']]
+    const typeList = [
+      '',
+      'image',
+      'audio',
+      'video',
+      'text',
+      'doc',
+      'wordprocessingml',
+      'xls',
+      'spreadsheetml',
+      'pdf',
+    ];
     const upload = new CreateUploadDto();
     upload.fileName = file.filename;
     upload.fileSize = file.size;
-    upload.fileType = 1;
+    upload.fileType = typeList.findIndex((v) => file.mimetype.indexOf(v) > -1);
     return 'This action adds a new upload';
   }
 

@@ -3,9 +3,12 @@ import { ApiProperty } from '@nestjs/swagger';
 enum fileType {
   image = 1,
   audio,
-  mp4,
+  video,
+  text,
   doc,
+  docx,
   xls,
+  xlsx,
   pdf,
 }
 
