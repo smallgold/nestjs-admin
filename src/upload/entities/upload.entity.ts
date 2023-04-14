@@ -1,21 +1,33 @@
 import { Exclude } from 'class-transformer';
-import { Column, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  Generated,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 enum fileType {
   image = 1,
   audio,
-  mp4,
+  video,
+  text,
   doc,
+  docx,
   xls,
+  xlsx,
   pdf,
 }
 
+@Entity()
 export class Upload {
   @Exclude()
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
-  @Column('uuid')
+  @PrimaryColumn()
+  @Generated('uuid')
   fileId: string;
 
   @Column()

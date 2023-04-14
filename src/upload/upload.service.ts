@@ -1,10 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUploadDto } from './dto/create-upload.dto';
-import { UpdateUploadDto } from './dto/update-upload.dto';
+import { Upload } from 'src/upload/entities/upload.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UploadService {
-  create(file) {
+  constructor(
+    @InjectRepository(Upload)
+    private readonly uploadRepository: Repository<Upload>,
+  ) {}
+
+  create(file: any) {
     // mimetype: 'image/png',
     // .3gp	video/3gpp
     // .apk	application/vnd.android.package-archive
@@ -83,11 +89,11 @@ export class UploadService {
       'spreadsheetml',
       'pdf',
     ];
-    const upload = new CreateUploadDto();
+    const upload = new Upload();
     upload.fileName = file.filename;
     upload.fileSize = file.size;
     upload.fileType = typeList.findIndex((v) => file.mimetype.indexOf(v) > -1);
-    return 'This action adds a new upload';
+    return this.uploadRepository.save(upload);
   }
 
   remove(fileId: string) {
