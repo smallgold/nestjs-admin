@@ -92,7 +92,11 @@ export class UploadService {
     const upload = new Upload();
     upload.fileName = file.filename;
     upload.fileSize = file.size;
-    upload.fileType = typeList.findIndex((v) => file.mimetype.indexOf(v) > -1);
+    upload.fileType = typeList.findIndex((v, i) => {
+      if (file.mimetype.indexOf(v) > -1) {
+        return i;
+      }
+    });
     return this.uploadRepository.save(upload);
   }
 

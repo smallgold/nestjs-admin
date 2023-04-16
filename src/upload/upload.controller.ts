@@ -26,7 +26,6 @@ export class UploadController {
   @UseInterceptors(FileInterceptor('file'))
   @UseInterceptors(ClassSerializerInterceptor)
   create(@UploadedFile() file, @Body() createUploadDto: CreateUploadDto) {
-    console.log(file);
     return this.uploadService.create(file);
   }
 }

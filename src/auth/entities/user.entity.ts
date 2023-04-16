@@ -8,6 +8,11 @@ import {
 } from 'typeorm';
 import { Profile } from './profile.entity';
 
+enum gender {
+  male = 1,
+  female,
+}
+
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -27,6 +32,12 @@ export class User {
 
   @Column()
   lastName: string;
+
+  @Column()
+  nickName: string;
+
+  @Column()
+  gender: gender;
 
   @CreateDateColumn({ type: 'timestamp' })
   createTime: Date;
