@@ -88,8 +88,11 @@ export class AuthController {
     user.username = createUserDto.username;
     user.password = await this.authService.hashPassword(createUserDto.password);
     user.email = createUserDto.email;
-    user.firstName = createUserDto.firstName;
-    user.lastName = createUserDto.lastName;
+    user.nickName = createUserDto.nickName;
+    user.gender = createUserDto.gender;
+    user.address = createUserDto.address;
+    user.industry = createUserDto.industry;
+    user.photoId = createUserDto.photoId;
     return {
       ...(await this.userRepository.save(user)),
       token: this.authService.getTokenForUser(user),

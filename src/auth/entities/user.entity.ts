@@ -28,16 +28,23 @@ export class User {
   email: string;
 
   @Column()
-  firstName: string;
-
-  @Column()
-  lastName: string;
-
-  @Column()
   nickName: string;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: gender,
+    default: 1,
+  })
   gender: gender;
+
+  @Column()
+  address: string;
+
+  @Column()
+  industry: string;
+
+  @Column()
+  photoId: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   createTime: Date;

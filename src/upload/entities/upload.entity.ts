@@ -36,7 +36,11 @@ export class Upload {
   @Column()
   fileSize: string;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: fileType,
+    default: 1,
+  })
   fileType: fileType;
 
   @CreateDateColumn({ type: 'timestamp' })

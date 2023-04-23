@@ -13,24 +13,23 @@ export class CreateUserDto extends LoginDto {
   retypedPassword: string;
 
   @ApiProperty({
-    name: 'firstName',
+    name: 'nickName',
     type: String,
     default: '',
-    description: 'firstName',
+    description: 'nickName',
     required: false,
   })
-  @Length(2)
-  firstName: string;
+  @Length(18)
+  nickName: string;
 
   @ApiProperty({
-    name: 'lastName',
-    type: String,
-    default: '',
-    description: 'lastName1111',
+    name: 'gender',
+    type: Number,
+    default: 1,
+    description: 'gender',
     required: false,
   })
-  @Length(2)
-  lastName: string;
+  gender: number;
 
   @ApiProperty({
     name: 'email',
@@ -41,4 +40,31 @@ export class CreateUserDto extends LoginDto {
   })
   @IsEmail()
   email: string;
+
+  @ApiProperty({
+    name: 'email',
+    type: String,
+    default: '',
+    description: 'email',
+    required: false,
+  })
+  address: string;
+
+  @ApiProperty({
+    name: 'industry',
+    type: String,
+    default: '',
+    description: 'industry',
+    required: false,
+  })
+  industry: string;
+
+  @ApiProperty({
+    name: 'photoId',
+    type: String,
+    default: '',
+    description: 'photoId',
+    required: false,
+  })
+  photoId: string;
 }
