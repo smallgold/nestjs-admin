@@ -35,7 +35,7 @@ export class User {
     enum: gender,
     default: 1,
   })
-  gender: gender;
+  gender: number;
 
   @Column()
   address: string;

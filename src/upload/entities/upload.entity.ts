@@ -41,7 +41,7 @@ export class Upload {
     enum: fileType,
     default: 1,
   })
-  fileType: fileType;
+  fileType: number;
 
   @CreateDateColumn({ type: 'timestamp' })
   createTime: Date;
